@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="خدمة التحويل السريع USSD مع سجل حركات محفوظ أوفلاين" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>خدمة التحويل السريع USSD</title>
+</head>
+<body>
+  <main class="app-shell">
+    <section id="transferView" class="view active-view" aria-label="خدمة التحويل السريع">
+      <header class="speed-header">
+        <div class="speed-lines" aria-hidden="true"></div>
+        <div class="speed-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><path d="M12 42a20 20 0 1 1 40 0"/><path d="M32 42l15-18"/><path d="M18 42h28"/></svg>
+        </div>
+        <h1>خدمة التحويل السريع USSD</h1>
+      </header>
+
+      <section class="main-card">
+        <div class="palpay-logo" aria-label="PalPay">
+          <div class="wallet-symbol">
+            <span></span>
+            <i></i>
+          </div>
+          <strong>PalPay</strong>
+        </div>
+
+        <p class="helper-line">
+          <span class="info-dot">i</span>
+          يتم توليد الكود بعد تعبئة الحقلين
+        </p>
+
+        <div class="form-grid">
+          <label for="phone">رقم الجوال</label>
+          <div class="input-row contact-row">
+            <input id="phone" type="tel" inputmode="numeric" pattern="[0-9]*" placeholder="059 أو 056" autocomplete="tel" />
+            <button id="pickContact" class="contact-btn" type="button" title="اختيار من جهات الاتصال" aria-label="اختيار من جهات الاتصال">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M17 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2Zm-5 4.2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5Zm5 10.3H7.1c.55-2.15 2.48-3.4 4.9-3.4s4.44 1.25 5 3.4Z"/>
+              </svg>
+            </button>
+          </div>
+
+          <label for="amount">المبلغ</label>
+          <input id="amount" class="large-input" type="number" inputmode="numeric" min="1" max="1000" placeholder="من 1 إلى 1000" />
+
+          <p id="message" class="message" role="status" aria-live="polite"></p>
+
+          <label for="codeOutput">الكود الناتج</label>
+          <div class="code-output-wrap">
+            <textarea id="codeOutput" readonly placeholder=""></textarea>
+            <button id="copyCode" class="copy-code-icon" type="button" title="نسخ الكود" aria-label="نسخ الكود">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h11v14Z"/></svg>
+            </button>
+          </div>
+
+          <div class="call-zone">
+            <button id="callButton" class="call-only-button" type="button" title="اتصال" aria-label="اتصال بالكود الناتج">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.61 21 3 13.39 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.24.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2Z"/></svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <button id="openHistory" class="history-open-btn" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h18v4H3V3Zm0 7h18v11H3V10Zm3 3v2h4v-2H6Zm6 0v2h6v-2h-6Zm-6 4v2h4v-2H6Zm6 0v2h6v-2h-6Z"/></svg>
+        سجل الحركات
+      </button>
+    </section>
+
+    <section id="historyView" class="view history-view" aria-label="سجل الحركات">
+      <header class="history-header">
+        <div>
+          <h2>سجل الحركات</h2>
+          <p>متابعة عمليات التحويل السريع USSD</p>
+        </div>
+        <div class="history-actions">
+          <button id="backToTransfer" type="button" class="soft-btn">رجوع</button>
+          <button id="toggleFilters" type="button" class="soft-btn filter-btn">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18l-7 8v5l-4 2v-7L3 5Z"/></svg>
+            فلتر
+          </button>
+          <button id="exportExcel" type="button" class="export-btn">تصدير Excel</button>
+        </div>
+      </header>
+
+      <section id="filtersPanel" class="filters-panel" hidden>
+        <div class="filter-field">
+          <label for="filterFrom">من تاريخ</label>
+          <input id="filterFrom" type="date" />
+        </div>
+        <div class="filter-field">
+          <label for="filterTo">إلى تاريخ</label>
+          <input id="filterTo" type="date" />
+        </div>
+        <div class="filter-field">
+          <label for="amountFrom">المبلغ من</label>
+          <input id="amountFrom" type="number" min="1" placeholder="₪" />
+        </div>
+        <div class="filter-field">
+          <label for="amountTo">المبلغ إلى</label>
+          <input id="amountTo" type="number" min="1" placeholder="₪" />
+        </div>
+        <div class="filter-field">
+          <label for="statusFilter">الحالة</label>
+          <select id="statusFilter">
+            <option value="all">الكل</option>
+            <option value="completed">مكتملة</option>
+            <option value="incomplete">غير مكتملة</option>
+          </select>
+        </div>
+        <button id="clearFilters" type="button" class="clear-btn">مسح الفلتر</button>
+      </section>
+
+      <section class="records-card">
+        <div class="table-wrap">
+          <table class="records-table">
+            <thead>
+              <tr>
+                <th>م</th>
+                <th>رقم الموبايل</th>
+                <th>المبلغ</th>
+                <th>التاريخ والوقت</th>
+                <th>تفاصيل العملية</th>
+                <th>الحالة</th>
+                <th>حذف</th>
+              </tr>
+            </thead>
+            <tbody id="recordsBody"></tbody>
+          </table>
+        </div>
+        <div id="emptyState" class="empty-state">لا توجد حركات محفوظة حتى الآن</div>
+      </section>
+
+      <footer class="total-footer">
+        <span>مجموع النفقات المكتملة</span>
+        <strong id="completedTotal">₪ 0</strong>
+      </footer>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

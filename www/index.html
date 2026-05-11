@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="خدمة التحويل السريع USSD مع سجل حركات محفوظ أوفلاين" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="styles-v5.css" />
+  <title>خدمة التحويل السريع USSD</title>
+</head>
+<body>
+  <main class="app-shell">
+    <section id="transferView" class="view active-view transfer-view" aria-label="خدمة التحويل السريع">
+      <header class="speed-header">
+        <div class="speed-lines" aria-hidden="true"></div>
+        <div class="speed-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><path d="M12 42a20 20 0 1 1 40 0"/><path d="M32 42l15-18"/><path d="M18 42h28"/></svg>
+        </div>
+        <h1>خدمة التحويل السريع USSD</h1>
+      </header>
+
+      <section class="main-card">
+        <fieldset class="wallet-switcher" aria-label="اختيار المحفظة">
+          <legend>اختر المحفظة</legend>
+          <button id="palpayWallet" class="wallet-option palpay-option active" type="button" data-wallet="palpay" aria-pressed="true">
+            <span class="wallet-mini-icon palpay-mini" aria-hidden="true"></span>
+            <strong>PalPay</strong>
+          </button>
+          <button id="jawwalWallet" class="wallet-option jawwal-option" type="button" data-wallet="jawwal" aria-pressed="false">
+            <span class="wallet-mini-icon jawwal-mini" aria-hidden="true"></span>
+            <strong>Jawwal Pay</strong>
+          </button>
+        </fieldset>
+
+
+          <button id="clearFields" class="clear-data-pill" type="button" aria-label="مسح البيانات">
+            <span class="clear-data-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M7 6h10l-1 15H8L7 6Zm3-3h4l1 2H9l1-2ZM5 6h14v2H5V6Z"/></svg>
+            </span>
+            <span>مسح البيانات</span>
+          </button>
+
+          
+<div class="form-grid">
+          <div class="field-group">
+            <label for="phone">رقم الجوال <small class="label-note">(يمكن الإختيار من قائمة الأسماء)</small></label>
+            <div class="input-shell field-icon-shell phone-shell">
+              <input id="phone" type="tel" inputmode="numeric" pattern="[0-9]*" placeholder="059 أو 056" autocomplete="tel" />
+              <button id="pickContact" class="contact-btn inside-input" type="button" title="اختيار من جهات الاتصال" aria-label="اختيار من جهات الاتصال">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2Zm-5 4.2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5Zm5 10.3H7.1c.55-2.15 2.48-3.4 4.9-3.4s4.44 1.25 5 3.4Z"/></svg>
+              </button>
+            </div>
+            <p id="contactSuccess" class="contact-success" role="status" aria-live="polite"></p>
+            <p id="phoneError" class="field-error" role="status" aria-live="polite"></p>
+          </div>
+
+          <div class="field-group">
+            <label for="amount">المبلغ</label>
+            <div class="input-shell field-icon-shell amount-shell">
+              <span class="field-static-icon amount-field-icon" aria-hidden="true">₪</span>
+              <input id="amount" type="text" inputmode="decimal" enterkeyhint="done" placeholder="أدخل المبلغ من 1 إلى 1000" />
+            </div>
+            <p id="amountError" class="field-error" role="status" aria-live="polite"></p>
+          </div>
+
+          
+
+          <div class="field-group movement-details-group">
+            <label for="movementDetails">تفاصيل الحركة</label>
+            <div class="input-shell field-icon-shell movement-details-shell">
+              <span class="field-static-icon details-field-icon" aria-hidden="true">?</span>
+              <input id="movementDetails" type="text" enterkeyhint="done" placeholder="أدخل تفاصيل الحركة" />
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <div class="call-zone">
+              <button id="callButton" class="transfer-button" type="button" title="التحويل" aria-label="التحويل بالكود الناتج">
+                <span>التحويل</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.61 21 3 13.39 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.24.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2Z"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <button id="openHistory" class="history-open-btn" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h18v4H3V3Zm0 7h18v11H3V10Zm3 3v2h4v-2H6Zm6 0v2h6v-2h-6Zm-6 4v2h4v-2H6Zm6 0v2h6v-2h-6Z"/></svg>
+        سجل الحركات
+      </button>
+    </section>
+
+    <section id="historyView" class="view history-view" aria-label="سجل الحركات">
+      <header class="history-header">
+        <div>
+          <h2>سجل الحركات</h2>
+          <p>متابعة عمليات التحويل السريع USSD</p>
+        </div>
+        <div class="history-actions">
+          <button id="toggleFilters" type="button" class="icon-soft-btn filter-btn" title="فلتر" aria-label="إظهار الفلتر">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18l-7 8v5l-4 2v-7L3 5Z"/></svg>
+          </button>
+          <button id="exportPdf" type="button" class="export-btn">تصدير PDF</button>
+        </div>
+      </header>
+
+      <section id="filtersPanel" class="filters-panel" hidden>
+        <div class="filter-field"><label for="filterFrom">من تاريخ</label><input id="filterFrom" type="date" /></div>
+        <div class="filter-field"><label for="filterTo">إلى تاريخ</label><input id="filterTo" type="date" /></div>
+        <div class="filter-field"><label for="amountFrom">المبلغ من</label><input id="amountFrom" type="number" min="1" placeholder="₪" /></div>
+        <div class="filter-field"><label for="amountTo">المبلغ إلى</label><input id="amountTo" type="number" min="1" placeholder="₪" /></div>
+        <div class="filter-field"><label for="walletFilter">نوع المحفظة</label><select id="walletFilter"><option value="all">الكل</option><option value="palpay">بال بى</option><option value="jawwal">جوال بى</option></select></div>
+        <div class="filter-field"><label for="statusFilter">الحالة</label><select id="statusFilter"><option value="all">الكل</option><option value="paid">مدفوعة</option><option value="unpaid">غير مدفوعة</option></select></div>
+        <button id="clearFilters" type="button" class="clear-btn">مسح الفلتر</button>
+      </section>
+
+      <section class="records-card">
+        <div class="table-wrap">
+          <table class="records-table">
+            <thead>
+              <tr>
+                <th>م</th>
+                <th>رقم الموبايل</th>
+                <th>المبلغ</th>
+                <th>التاريخ والوقت</th>
+                <th>نوع المحفظة</th>
+                <th>تفاصيل العملية</th>
+                <th>الحالة</th>
+                <th>حذف</th>
+              </tr>
+            </thead>
+            <tbody id="recordsBody"></tbody>
+          </table>
+        </div>
+        <div id="emptyState" class="empty-state">لا توجد حركات محفوظة حتى الآن</div>
+      </section>
+
+      <footer class="history-footer">
+        <button id="backToTransfer" type="button" class="back-btn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+          رجوع
+        </button>
+        <div class="total-footer">
+          <span>مجموع النفقات المدفوعة</span>
+          <strong id="paidTotal">₪ 0</strong>
+        </div>
+      </footer>
+    </section>
+  </main>
+
+
+  <div id="deleteConfirmModal" class="duplicate-modal" hidden>
+    <div class="duplicate-dialog" role="dialog" aria-modal="true" aria-labelledby="deleteConfirmTitle">
+      <h3 id="deleteConfirmTitle">هل تود حذف هذا السجل؟</h3>
+      <div class="duplicate-actions">
+        <button id="confirmDeleteYes" type="button" class="duplicate-yes">نعم</button>
+        <button id="confirmDeleteNo" type="button" class="duplicate-no">لا</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="duplicateModal" class="duplicate-modal" hidden>
+    <div class="duplicate-dialog" role="dialog" aria-modal="true" aria-labelledby="duplicateTitle">
+      <h3 id="duplicateTitle">هل هذه حركة مكررة؟</h3>
+      <p>تم العثور على حركة سابقة بنفس البيانات.</p>
+      <div class="duplicate-actions">
+        <button id="confirmDuplicateYes" type="button" class="duplicate-yes">نعم، لا تضفها</button>
+        <button id="confirmDuplicateNo" type="button" class="duplicate-no">لا، أضفها</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="paymentConfirmModal" class="payment-confirm-modal" hidden>
+    <div class="payment-confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="paymentConfirmTitle">
+      <h3 id="paymentConfirmTitle">هل اكتملت عملية الدفع بنجاح؟</h3>
+      <div class="payment-confirm-actions">
+        <button id="paymentConfirmYes" type="button" class="payment-confirm-yes">نعم</button>
+        <button id="paymentConfirmNo" type="button" class="payment-confirm-no">لا</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app-v5.js"></script>
+</body>
+</html>

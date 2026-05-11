@@ -1,0 +1,9 @@
+{
+  "appId": "com.palpay.ussdquicktransfer",
+  "appName": "خدمة التحويل السريع USSD",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  }
+}
